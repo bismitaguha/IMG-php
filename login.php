@@ -2,7 +2,7 @@
 session_start();
 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
-      header("location: welcome.php");
+      header("location: dashboard.php");
           exit();
 }
 
@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                               $_SESSION["loggedin"]=true;
                               $_SESSION["id"]=$id;
                               $_SESSION["username"]= $username;
-                              header("location: welcome.php");
+                              header("location: dashboard.php");
                               } else {
                                   $password_err="Wrong password.";                                                                                                                                                                          }
                            } else {
@@ -74,6 +74,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
    <label>Password</label>
    <input type="password" name="password" class="form-control">
    <span class="help-block"><?php echo $password_err; ?></span>
+   <label>
+   <input type="checkbox" name="remember_me" id="remember_me"> Remember me</label>
 </div>
 <div class="form-group">
    <input type="submit" class="btn btn-primary" value="Login">
