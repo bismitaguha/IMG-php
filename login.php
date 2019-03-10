@@ -6,7 +6,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]===true){
           exit();
 }
 
-require_once "config.php";
+include 'config.php';
 
 $username=$password="";
 $username_err=$password_err="";
@@ -20,33 +20,38 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     if(empty(trim($_POST["password"]))){
          $password_err="Please enter password";
     } else{
-       $password=trim($_POST["password"]);
+       $password=$_POST["password"];
          }
          if(empty($username_err) && empty($password_err)){
-             $sql ="SELECT id, username, password FROM users WHERE username = '$username'";
+          
+             $sql ="SELECT id, username, password FROM bismita_users WHERE username = '$username'";
+             $result = mysqli_query($link, $sql);
+             while($row = mysqli_fetch_object($result)){
+             $hash=$row->password;
+             }
+             if(password_verify($password,$hash)){
+             
+             $count = mysqli_num_rows($result);
+              echo $count;
+                if($count==1){
+                session_start();
+                $_SESSION["loggedin"] = TRUE;
+                $_SESSION["id"] = $id;
+                $_SESSION["username"] = $username;
+                header("location: dashboard.php");
+                echo "hi";}
+         } else { $password_err="Wrong Password.";}
+         }
 
-               if($stmt= mysqli_prepare($link,$sql)){
-                  if(mysqli_stmt_fetch($stmt)==1){
-                        mysqli_stmt_bind_result($stmt,$id,$username,$hashed_password);
-                            if(mysqli_stmt_fetch($stmt)){
-                              if(password_verify($password,$hashed_password)){
-                              session_start();
-
-                              $_SESSION["loggedin"]=true;
-                              $_SESSION["id"]=$id;
-                              $_SESSION["username"]= $username;
-                              header("location: dashboard.php");
-                              } else {
-                                  $password_err="Wrong password.";                                                                                                                                                                          }
-                           } else {
-                             $username_err="The username does not exist.";
-                           }
-                           } else{
-                             echo "Something went wrong. Please try again.";
-                             }
-               } mysqli_stmt_close($stmt);
+         echo $hash."   ";
+         echo $password;
+        
+        if($_POST["remember_me"]=='1' || $_POST["remember_me"]=='on'){
+          $hour = time()+3600*24*30;
+          setcookie('username', $username, $hour);
         }
-        mysqli_close($link);
+                     
+     $link->close();
 }
 ?>
 <!DOCTYPE html>
