@@ -1,15 +1,11 @@
 <?php
 include 'config.php';
-
 $username=$password=$name=$email=$gender=$mobile_no=$confirm_password="";
 $username_err=$password_err=$confirm_password_err=$email_err=$mobile_no_err=$name_err="";
-
 if($_SERVER["REQUEST_METHOD"]=="POST"){
   if(!empty(trim($_POST["name"]))) {
     $name=$_POST["name"];
   } else{$name_err="Please fill your name.";}
-
-
   if(!empty(trim($_POST["email"]))){
        $sql= "SELECT id from bismita_users WHERE email= ?";
     $stmt = mysqli_prepare($link,$sql);
@@ -19,14 +15,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       if(mysqli_stmt_execute($stmt)){
         mysqli_stmt_store_result($stmt);
        if(mysqli_stmt_num_rows($stmt)==1){
-
          $email_err="The email already exists.";
           } else { $email=trim($_POST["email"]);}
       }mysqli_stmt_close($stmt);
       }  
   } else {$email_err="Please enter your email";}
-
-
   if(empty(trim($_POST["username"]))){
     $username_err="Please enter a username.";}
   else {
@@ -43,11 +36,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     }mysqli_stmt_close($stmt);
     }  
   }
-
   if(!empty(trim($_POST["password"]))){
     $password=$_POST["password"]; $hash= password_hash($password, PASSWORD_DEFAULT);
   } else {$password_err="Password cannot be empty.";}
-
   if(!empty(trim($_POST["confirm_password"]))){
     if(trim($_POST["password"])==trim($_POST["confirm_password"])){
       $confirm_password_err="";
@@ -61,11 +52,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
   if(!empty($_POST["mobile_no"])){
     $mobile_no=$_POST["mobile_no"];
   } else { $mobile_no_err="Enter a valid mobile no.";}
-
-
   if($username_err=="" && $password_err=="" && $confirm_password_err=="" && $email_err=="" && $mobile_no_err=="" && $name_err==""){
   $sql = "INSERT INTO bismita_users (username, password, name,email,gender,mobile_no) VALUES ('$username', '$hash', '$name', '$email', '$gender', '$mobile_no')";
-
  if($link->query($sql) === TRUE){
    echo "Registered successfully.";
    header("location: login.php");
