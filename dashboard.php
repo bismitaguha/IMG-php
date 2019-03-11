@@ -8,7 +8,17 @@ session_start();
 $sql = "SELECT * FROM bismita_users WHERE id = '$id'";
 $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_object($result);
-while($row)
+while($row) {<?
+    
+    <div class="profile-form">
+    <input type="button" id="btn" value="Edit your Profile">
+    <label>Name:</label><span class="details"><?php echo $row->name; ?></span>
+    <label>Email:</label><span class="details"><?php echo $row->email; ?></span>
+    <label>Gender:</label><span class="details"><?php echo $row->gender; ?></span>
+    <label>Mobile Number.:</label><span class="details"><?php echo $row->mobile_no; ?></span>
+    <label>Username:</label><span class="details"><?php echo $row->username; ?></span>
+    <a href="change.php">Change your password</a>
+    <div>    
 <div class="profile-form">
 <form id="profile" action="update.php" method="post">
 <input type="file" name="image" id="image">
@@ -19,6 +29,7 @@ while($row)
 <input type="number" name="mobile_no" class="update" value="<?php echo $row->mobile_no; ?>">
 </form>
 <div>
+?>}
 <a href="logout.php">Logout</a>
 </div>
 </body>
