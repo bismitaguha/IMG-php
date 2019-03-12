@@ -1,7 +1,9 @@
 <?php
 
 include 'config.php';
-
+session_start();
+if($_SESSION["loggedin"] == TRUE){
+	$username = $_SESSION["id"];
 
 //ImageUpload
 if(isset($_POST["submit"])){
@@ -19,17 +21,27 @@ if(isset($_POST["submit"])) {
  }
 
  if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") { 
-   echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+   echo "Sorry, only JPG, JPEG & PNG files are allowed.";$submit=0;
    $uploadOk = 0;
  }
 
-if ($uploadOk == 0) {
+if ($uploadOk == 0) {$submit=0;
     echo "Sorry, your file was not uploaded.";
 
     } else {
  
-      if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+	    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+		    $submit = 1;
           echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-      } else {echo "Sorry, there was an error uploading your file.";
+	    } else {$submit = 0;
+		    echo "Sorry, there was an error uploading your file.";
              }
-    }}
+ }}
+	 $sql = "UPDATE bismita_users SET image = '$target_file' WHERE username = '$username'";
+
+ if($link->query($sql) === TRUE){
+	 echo "Profile Picture set.";
+	 header("location: dashboard.php");
+ } else{ echo $sql.$link->error;}
+ $link->close();
+} else { header("location: login.php");} 

@@ -1,14 +1,15 @@
 <?php
-require_once("DBController.php");
-$db_handle = new DBController();
+require_once("config.php");
 
 
 if(!empty($_POST["username"])) {
-    $query = "SELECT * FROM bismita_users WHERE username='" . $_POST["username"] . "'";
-    $user_count = $db_handle->numRows($query);
-    if($user_count>0) {
+	$username = $_POST["username"];
+	$sql = "SELECT * FROM bismita_users WHERE username='$username'";
+	$result = mysqli_query($link, $sql);
+	if(mysqli_num_rows($result) == 1){
+    
        echo "<span class='status-not-available'> Username Not Available.</span>";
-       }else{
+       } else{
         echo "<span class='status-available'> Username Available.</span>";
       }
 }

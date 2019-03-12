@@ -35,12 +35,13 @@ if($row) {
     <a href="change.php">Change your password</a>
     </div>
 <div class="form-group" id="form-edit" style="display: none";>
-<form id="profile" action="update.php" method="post">
+
 <form id="image" action=image.php" method="post">
 <label>Change Profile Picture:</label>
 <input type="file" name="image" id="image" class="form-control"><input type="submit" class="btn btn-default"><br>
 </form>
 <br>
+<form id="profile" action="update.php" method="post">
 <label>Name:</label>
 <input type="text" name="name" class="form-control" value="<?php echo $row->name; ?>"><br>
 <label>Gender:</label><br>

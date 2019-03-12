@@ -1,7 +1,6 @@
 <?php
  
 include 'config.php';
-require 'image.php';
 session_start();
 if($_SESSION["loggedin"] == TRUE ){
   $id = $_SESSION["id"];
@@ -20,7 +19,7 @@ if($_SESSION["loggedin"] == TRUE ){
       
   
       if($name_err=="" && $mobile_no_err=""){
-        $sql = "UPDATE bismita_users SET name = '$name', gender = '$gender', mobile_no = '$mobile_no', image = '$target_file' WHERE username = '$username'";
+        $sql = "UPDATE bismita_users SET name = '$name', gender = '$gender', mobile_no = '$mobile_no' WHERE username = '$username'";
 
        if($link->query($sql) === TRUE){
         echo "Updated successfully.";
@@ -29,4 +28,4 @@ if($_SESSION["loggedin"] == TRUE ){
        }
        $link->close();
       }
-  }}
+  }} else { header("location: login.php");}
