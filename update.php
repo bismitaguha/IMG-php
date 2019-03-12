@@ -6,7 +6,7 @@ session_start();
 if($_SESSION["loggedin"] == TRUE ){
   $id = $_SESSION["id"];
   $username = $_SESSION["username"];
-  if($_SERVER["REQUEST_METHOD"] == "POST"){
+  if(isset($_POST["submit"])){ echo "hi";
     if(!empty(trim($_POST["name"]))) {
       $name=$_POST["name"];
     } else{$name_err="Name cannot be empty.";}
@@ -24,6 +24,7 @@ if($_SESSION["loggedin"] == TRUE ){
 
        if($link->query($sql) === TRUE){
         echo "Updated successfully.";
+        header("location: chat.php");
        } else { echo $sql.$link->error;
        }
        $link->close();

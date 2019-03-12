@@ -95,12 +95,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 </div>
 <div class="form-group">
    <label>Username:</label>
-   <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+   <input type="text" name="username" class="form-control" id="username" value="<?php echo $username; ?>" onkeyup='checkAvailability()' >
    <span class="help-block"><?php echo $username_err; ?></span>
+   <span id="user-availability-status"></span>
 </div>    
 <div class="form-group">
    <label>Password:</label>
-   <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
+   <input type="password" name="password" class="form-control" id="password"  value="<?php echo $password; ?>">
    <span class="help-block"><?php echo $password_err; ?></span>
 </div>
 <div class="form-group">
@@ -127,6 +128,19 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 </div>
 <script>
 
+function checkAvailability() {
+  
+  jQuery.ajax({
+    url: "check_availability.php",
+    data:'username='+$("#username").val(),
+    type: "POST",
+    success:function(data){
+    $("#user-availability-status").html(data);
+    
+},
+error:function (){}
+});
+}
 function check() {
   if (document.getElementById('password').value ==
   document.getElementById('confirm_password').value) {
