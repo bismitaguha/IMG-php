@@ -38,19 +38,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 $_SESSION["loggedin"] = TRUE;
                 $_SESSION["id"] = $id;
                 $_SESSION["username"] = $username;
+                if($_POST["remember_me"]=='1' || $_POST["remember_me"]=='on'){
+                    $hour = time()+3600*30*100;
+                    setcookie('userid', $id, $hour);
+                }
                 header("location: dashboard.php");
                 echo "hi";}
          } else { $password_err="Wrong Password.";}
          }
 
-         echo $hash."   ";
-         echo $password;
+       
         
-        if($_POST["remember_me"]=='1' || $_POST["remember_me"]=='on'){
-          $hour = time()+3600*24*30;
-          setcookie('username', $username, $hour);
-        }
-                     
+                            
      $link->close();
 }
 ?>

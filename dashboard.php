@@ -15,6 +15,8 @@
 require "config.php";
 session_start();
 if($_SESSION["loggedin"] == TRUE ){
+  
+  echo $_SESSION["id"];
 $username = $_SESSION["username"];
 $sql = "SELECT * FROM bismita_users WHERE username = '$username'";
 $result = mysqli_query($link, $sql);
@@ -34,8 +36,11 @@ if($row) {
     </div>
 <div class="form-group" id="form-edit" style="display: none";>
 <form id="profile" action="update.php" method="post">
+<form id="image" action=image.php" method="post">
 <label>Change Profile Picture:</label>
-<input type="file" name="image" id="image" class="form-control"><br>
+<input type="file" name="image" id="image" class="form-control"><input type="submit" class="btn btn-default"><br>
+</form>
+<br>
 <label>Name:</label>
 <input type="text" name="name" class="form-control" value="<?php echo $row->name; ?>"><br>
 <label>Gender:</label><br>

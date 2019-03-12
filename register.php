@@ -82,15 +82,15 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 <div class="wrapper">
    <h2>Sign Up</h2>
    <p>Please fill this form to create an account.</p>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" name="my_form" onsubmit="return validateForm()" >
 <div class="form-group">
    <label>Name:</label>
-   <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
+   <input type="text" name="name" class="form-control" value="<?php echo $name; ?>" id="name" onkeyup='name_check()'><span id="message-3"></span>
    <span class="help-block"><?php echo $name_err; ?></span>
 </div>
 <div class="form-group">
    <label>Email:</label>
-   <input type="email" name="email" class="form-control" value="<?php echo $email; ?>">
+   <input type="email" name="email" class="form-control" value="<?php echo $email; ?>" id="mail-id" onkeyup='match()'><span id="message-1"></span>
    <span class="help-block"><?php echo $email_err; ?></span>
 </div>
 <div class="form-group">
@@ -105,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 </div>
 <div class="form-group">
    <label>Confirm Password:</label>
-   <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
+   <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>" id="confirm_password" onkeyup ='check()'><span id="message"></span>
    <span class="help-block"><?php echo $confirm_password_err; ?></span>
 </div>
 <div class="form-group">
@@ -115,7 +115,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 </div>
 <div class="form-group">
    <label>Mobile No.:</label>
-   <input type="number" name="mobile_no" class="form-control" value="<?php echo $mobile_no; ?>">
+   <input type="number" name="mobile_no" class="form-control" value="<?php echo $mobile_no; ?>" id="ph-no" onkeyup='phone()'><span id="message-2"></span>
    <span class="help-block"><?php echo $mobile_no_err; ?></span>
 </div>
 <div class="form-group">
@@ -124,7 +124,88 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 </div>
 <p>Already have an account? <a href="login.php">Login here</a>.</p>
 </form>
-</div>    
+</div>
+<script>
+
+function check() {
+  if (document.getElementById('password').value ==
+  document.getElementById('confirm_password').value) {
+  document.getElementById('message').style.color = 'green';
+  document.getElementById('message').innerHTML = 'Password matching';
+  } else {
+    document.getElementById('message').style.color = 'red';
+    document.getElementById('message').innerHTML = 'Password does not match';
+  }}
+
+function name_check() {
+  var term = document.getElementById('name').value;
+  var re = /[a-zA-Z]+/;
+
+  if (re.test(term)) {
+     document.getElementById('message-3').style.color = 'green';
+     document.getElementById('message-3').innerHTML = 'Valid';
+     } else {
+     document.getElementById('message-3').style.color = 'red';
+     document.getElementById('message-3').innerHTML = 'Not Valid';
+    }
+}
+
+function match() {
+    var term = document.getElementById('mail-id').value;
+    var re = /^\w+@[a-z]{2}(\.iitr\.ac\.in)$/;
+    if (re.test(term)) {
+       document.getElementById('message-1').style.color = 'green';
+       document.getElementById('message-1').innerHTML = 'Valid';
+    } else {
+       document.getElementById('message-1').style.color = 'red';
+       document.getElementById('message-1').innerHTML = 'Not Valid';
+   }
+}
+
+function phone() {
+   var term = document.getElementById('ph-no').value;
+   var re = /^[6789]\d{9}$/;
+   if (re.test(term)) {
+      document.getElementById('message-2').style.color = 'green';
+      document.getElementById('message-2').innerHTML = 'Valid';
+   } else { 
+      document.getElementById('message-2').style.color = 'red';
+      document.getElementById('message-2').innerHTML = 'Not Valid';}
+}
+
+function validateForm() {
+  var x = document.forms["my_form"]["name"].value;
+    if (x == "") {
+       alert("Name must be filled out");
+       return false;
+    }
+
+    var x = document.forms["my_form"]["ph-no"].value;
+      if (x == "") {
+        document.getElementById('ph-no').style.color = 'red';
+        alert("Phone Number must be filled out");
+        return false;
+      }
+    var x = document.forms["my_form"]["password"].value;
+       if (x == "") {
+          document.getElementById('password').style.color = 'red';
+          alert("Password must be filled out");
+          return false;
+      }
+    var x = document.forms["my_form"]["confirm_password"].value;
+       if (x == "") {
+          document.getElementById('confirm_password').style.color = 'red';
+          alert("Confirm Password must be filled out");
+          return false;
+      }
+    var x = document.forms["my_form"]["mail-id"].value;
+       if (x == "") {
+          document.getElementById('mail-id').style.color = 'red';
+          alert("Email must be filled out");
+          return false;
+      }
+}
+</script>
 </body>
 </html>
 
