@@ -3,7 +3,7 @@
 include 'config.php';
 $name_err=$mobile_no_err="";
 session_start();
-if($_SESSION["loggedin"] == TRUE ){
+if($_SESSION["loggedin"] == TRUE || isset($_COOKIE["userid"]) ){
   $id = $_SESSION["id"];
   $username = $_SESSION["username"]; echo $username;
   if($_SERVER["REQUEST_METHOD"]== "POST"){ 

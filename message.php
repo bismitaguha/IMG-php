@@ -1,7 +1,7 @@
 <?php
 include 'config.php';
 session_start();
-if($_SESSION["loggedin"] ==TRUE){
+if($_SESSION["loggedin"] ==TRUE || isset($_COOKIE["userid"])){
    $username= $_SESSION["username"];
   if(isset($_POST['submit'])){
     $to_username=$_POST["to"];

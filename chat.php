@@ -1,7 +1,7 @@
 <?php
 require "config.php";
 session_start();
-if($_SESSION["loggedin"] == TRUE){
+if($_SESSION["loggedin"] == TRUE || isset($_COOKIE["userid"])){
     $username = $_SESSION["username"];
       $sql = "SELECT username FROM bismita_users WHERE not username = '$username'";
         $result = mysqli_query($link, $sql);

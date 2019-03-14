@@ -2,7 +2,7 @@
 
 include 'config.php';
 session_start();
-if($_SESSION["loggedin"] == TRUE){
+if($_SESSION["loggedin"] == TRUE || isset($_COOKIE["userid"])){
   $username = $_SESSION["username"];
   if($_SERVER["REQUEST_METHOD"]=="POST"){
     $password =$_POST["new_password"];
