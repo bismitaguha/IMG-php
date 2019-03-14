@@ -42,7 +42,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                     $hour = time()+3600*30*100;
                     setcookie('userid', $id, $hour);
                 }
-                header("location: dashboard.php");
+                header("location: chat.php");
                 echo "hi";}
          } else { $password_err="Wrong Password.";}
          }

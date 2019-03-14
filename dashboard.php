@@ -16,7 +16,7 @@ require "config.php";
 session_start();
 if($_SESSION["loggedin"] == TRUE ){
   
-  echo $_SESSION["id"];
+
 $username = $_SESSION["username"];
 $sql = "SELECT * FROM bismita_users WHERE username = '$username'";
 $result = mysqli_query($link, $sql);
@@ -33,22 +33,23 @@ if($row) {
     <label>Mobile Number.:</label><span class="form-control" style="border: 0px; padding: 0px; border-radius: 0px; height: 25px;"><?php echo $row->mobile_no; ?></span><br>
     <label>Username:</label><span class="form-control" style="border: 0px; padding: 0px; border-radius: 0px; height: 25px;"><?php echo $row->username; ?></span><br>
     <a href="change.php">Change your password</a>
+    <br><a href="chat.php">Chat</a>
     </div>
 <div class="form-group" id="form-edit" style="display: none";>
 
-<form id="image" action=image.php" method="post">
+<form id="image" action="image.php" method="post" enctype="multipart/form-data">
 <label>Change Profile Picture:</label>
-<input type="file" name="image" id="image" class="form-control"><input type="submit" class="btn btn-default"><br>
-</form>
+<input type="file" name="image" id="image" class="form-control" ><input type="submit" name="submit" class="btn btn-primary" value="Upload"><br>
 <br>
-<form id="profile" action="update.php" method="post">
+</form>
+<form action="update.php" method="post">
 <label>Name:</label>
-<input type="text" name="name" class="form-control" value="<?php echo $row->name; ?>"><br>
+<input type="text" name="name" class="form-control" value="<?php echo $row->name; ?>"><br><br>
 <label>Gender:</label><br>
 <input type="radio" name="radio" value="male" <?php if($row->gender == "male") {echo "checked=checked";} ?>>Male<br>
 <input type="radio" name="radio" value="female" <?php if($row->gender == "female") {echo "checked=checked";} ?>>Female<br>
 <label>Mobile Number:</label>
-<input type="number" name="mobile_no" class="form-control" value="<?php echo $row->mobile_no; ?>"><br><input type="submit" class="btn btn-primary" value="Update Profile">
+<input type="number" name="mobile_no" class="form-control" value="<?php echo $row->mobile_no; ?>"><br><input type="submit" name="submit" class="btn btn-primary" value="Update Profile">
 </form>
 </div>
 <?php } ?>

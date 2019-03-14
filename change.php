@@ -1,3 +1,30 @@
+<?php
+
+include 'config.php';
+session_start();
+if($_SESSION["loggedin"] == TRUE){
+  $username = $_SESSION["username"];
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $password =$_POST["new_password"];
+    $conf_password =$_POST["conf_password"];
+    $curr_password = $_POST["current_password"];
+    $sql = "SELECT password FROM bismita_users WHERE username = '$username'";
+    $result = mysqli_query($link,$sql);
+    while($row = mysqli_fetch_object($result)){
+          $hash=$row->password;
+                 }
+          if(password_verify($curr_password,$hash)) {
+            if($conf_password==$password){ $hash1= password_hash($password, PASSWORD_DEFAULT);
+            $sql="UPDATE bismita_users SET password = '$hash1' WHERE username= '$username'";
+            if($link->query($sql) === TRUE){
+              echo "Updated successfully.";
+              //header("location: dashboard.php");
+            }} else { echo "Confirm password doesn't match.";}
+            } else { echo "Current password is wrong.";}
+  }} else { header("location: login.php");}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +48,7 @@
   <label>Confirm Password:</label>
   <input type="password" name="conf_password" class="form-control" id="conf_password" onkeyup='check()' ><br>
   <span id="message"></span>
+  <input type="submit" name="submit" value="Change">
 </form>
 </div>
 </div>

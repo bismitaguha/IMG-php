@@ -1,12 +1,13 @@
 <?php
  
 include 'config.php';
+$name_err=$mobile_no_err="";
 session_start();
 if($_SESSION["loggedin"] == TRUE ){
   $id = $_SESSION["id"];
-  $username = $_SESSION["username"];
-  if(isset($_POST["submit"])){ echo "hi";
-    if(!empty(trim($_POST["name"]))) {
+  $username = $_SESSION["username"]; echo $username;
+  if($_SERVER["REQUEST_METHOD"]== "POST"){ 
+    if(!empty(trim($_POST["name"]))) { 
       $name=$_POST["name"];
     } else{$name_err="Name cannot be empty.";}
 
@@ -16,9 +17,8 @@ if($_SESSION["loggedin"] == TRUE ){
       if(!empty($_POST["mobile_no"])){
             $mobile_no=$_POST["mobile_no"];
               } else { $mobile_no_err="Enter a valid mobile no.";}
-      
-  
-      if($name_err=="" && $mobile_no_err=""){
+ 
+      if($name_err=="" && $mobile_no_err==""){
         $sql = "UPDATE bismita_users SET name = '$name', gender = '$gender', mobile_no = '$mobile_no' WHERE username = '$username'";
 
        if($link->query($sql) === TRUE){
